@@ -18,7 +18,6 @@ const Top: NextPage = () => {
 	return (
 		<AuthProvider>
 			<Home />
-			<button onClick={handleGetUsers}>a</button>
 		</AuthProvider>
 	);
 };

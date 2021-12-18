@@ -1,6 +1,6 @@
 import { VFC, useState, FormEvent, ChangeEvent } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../config/firebase';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../../../config/firebase';
 import { useRouter } from 'next/dist/client/router';
 
 const SignInForm: VFC = () => {
@@ -8,7 +8,7 @@ const SignInForm: VFC = () => {
 	const [password, setPassword] = useState<string>('');
 	const router = useRouter();
 
-	const login = async (e: FormEvent) => {
+	const emailLogin = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
@@ -20,9 +20,20 @@ const SignInForm: VFC = () => {
 		}
 	};
 
+	const googleLogin = async () => {
+		try {
+			await signInWithPopup(auth, provider);
+			router.push('/');
+		} catch (error) {
+			if (error instanceof Error) {
+				alert(error.message);
+			}
+		}
+	};
+
 	return (
 		<div className="wrapper">
-			<form className="auth" onSubmit={(e: FormEvent) => login(e)}>
+			<form className="auth" onSubmit={(e: FormEvent) => emailLogin(e)}>
 				<div>
 					<label htmlFor="email" className="auth-label">
 						Email:{' '}
@@ -49,6 +60,7 @@ const SignInForm: VFC = () => {
 					ログイン
 				</button>
 			</form>
+			<button onClick={googleLogin}>Googleアカウントでログイン</button>
 		</div>
 	);
 };

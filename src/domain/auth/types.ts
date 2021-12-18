@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 
 export type AuthContextProps = {
 	currentUser: User | null | undefined;
-	logout: () => void;
 };
 
 export type AuthProviderProps = {

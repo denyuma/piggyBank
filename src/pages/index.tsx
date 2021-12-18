@@ -1,8 +1,26 @@
 import type { NextPage } from 'next';
+import { useState } from 'react';
 import Home from '../components/page/Home';
+import { AuthProvider } from '../domain/auth/AuthProvider';
 
 const Top: NextPage = () => {
-	return <Home />;
+	const [users, setUsers] = useState(null);
+
+	const handleGetUsers = async () => {
+		// Client-side request are mocked by `mocks/browser.js`.
+		await fetch('/users')
+			.then((res) => res.json())
+			.then(setUsers);
+	};
+
+	console.log(users);
+
+	return (
+		<AuthProvider>
+			<Home />
+			<button onClick={handleGetUsers}>a</button>
+		</AuthProvider>
+	);
 };
 
 export default Top;

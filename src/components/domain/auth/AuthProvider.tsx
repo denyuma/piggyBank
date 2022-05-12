@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import { VFC, createContext, useEffect, useState, useContext } from 'react';
-import { auth } from '../../config/firebase';
+import { auth } from '../../../config/firebase';
 import { AuthContextProps, AuthProviderProps } from './types';
 
 const AuthContext = createContext<AuthContextProps>({ currentUser: null });

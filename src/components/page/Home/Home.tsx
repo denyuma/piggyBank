@@ -1,9 +1,13 @@
-import Link from 'next/link';
 import { VFC } from 'react';
-import { Button } from '@mui/material';
+import Box from '@mui/material/Box';
 import { useAuthContext } from '../../domain/auth/AuthProvider';
 import { useRouter } from 'next/dist/client/router';
 import endPointUrl from '../../../config/apiconfig';
+import Header from '../../ui/Home/Header';
+import Title from '../../ui/Home/Title';
+import Features from '../../ui/Home/Features';
+import Footer from '../../ui/Home/Footer';
+import styles from '../../../styles/Home.module.css';
 
 const Home: VFC = () => {
 	const { currentUser } = useAuthContext();
@@ -18,12 +22,14 @@ const Home: VFC = () => {
 
 	return (
 		<>
-			<Link href="/signup" passHref>
-				<Button>新規登録</Button>
-			</Link>
-			<Link href="/signin" passHref>
-				<Button>ログイン</Button>
-			</Link>
+			<Box className={styles.bgHero}>
+				<Box className="mb-16 min-h-screen">
+					<Header />
+					<Title />
+				</Box>
+			</Box>
+			<Features />
+			<Footer />
 		</>
 	);
 };

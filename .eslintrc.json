@@ -18,20 +18,22 @@
 		"sourceType": "module",
 		"project": "./tsconfig.eslint.json"
 	},
-	"plugins": ["react", "@typescript-eslint"],
+	"plugins": ["react", "@typescript-eslint", "tailwindcss"],
 	"extends": [
 		"next/core-web-vitals",
+		"prettier",
 		"eslint:recommended",
 		"plugin:@typescript-eslint/eslint-recommended",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:react/recommended",
 		"plugin:tailwindcss/recommended",
-		"prettier"
+		"plugin:react/recommended"
 	],
 	"rules": {
 		"react/react-in-jsx-scope": "off",
 		"react/prop-types": "off",
-		"react/no-children-prop": "off"
+		"react/no-children-prop": "off",
+		// TODO: tailwind-cssとvscode-prettierが競合していて、正確に整形されていないため。可能なら競合しないよう修正
+		"tailwindcss/classnames-order": "off"
 	},
 	"ignorePatterns": ["*.config.js"]
 }

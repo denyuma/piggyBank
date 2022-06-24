@@ -1,6 +1,6 @@
 import { VFC } from 'react';
 import Box from '@mui/material/Box';
-import { useAuthContext } from '../../domain/auth/AuthProvider';
+import { useAuthContext } from '../../../provider/AuthProvider';
 import { useRouter } from 'next/dist/client/router';
 import endPointUrl from '../../../config/apiconfig';
 import Header from '../../ui/Home/Header';

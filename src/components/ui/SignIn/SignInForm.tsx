@@ -1,6 +1,6 @@
 import { VFC, useState, FormEvent, ChangeEvent } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, provider } from '../../../../config/firebase';
+import { auth, provider } from '../../../config/firebase';
 import { useRouter } from 'next/dist/client/router';
 
 const SignInForm: VFC = () => {

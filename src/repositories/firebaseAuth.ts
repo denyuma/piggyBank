@@ -4,49 +4,59 @@ import {
 	signInWithPopup,
 	signOut,
 	UserCredential,
+	AuthError,
 } from 'firebase/auth';
 import { auth, googleAuthProvider } from '../config/firebase';
 
-export const firebaseCreateUser = async (email: string, password: string): Promise<string | null> => {
+type returnValue = {
+	hasError: boolean;
+	errorContent: Error | null;
+};
+
+export const firebaseCreateUser = async (email: string, password: string): Promise<returnValue> => {
 	try {
 		await createUserWithEmailAndPassword(auth, email, password);
-		const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
+		await signInWithEmailAndPassword(auth, email, password);
 
-		return userCredential.user.uid;
-	} catch (error) {
-		if (error instanceof Error) {
-			alert(error.message);
+		return { hasError: false, errorContent: null };
+	} catch (e) {
+		const error = e as AuthError;
+		const hasError = true;
+
+		switch (error.code) {
+			case 'auth/email-already-in-use':
+				return { hasError, errorContent: new Error('このメールアドレスはすでに使われています') };
+			default:
+				return { hasError, errorContent: new Error('サーバーでエラーが発生しました') };
 		}
-
-		return null;
 	}
 };
 
-export const emailAuth = async (email: string, password: string): Promise<string | null> => {
+export const emailAuth = async (email: string, password: string): Promise<returnValue> => {
 	try {
-		const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
+		await signInWithEmailAndPassword(auth, email, password);
 
-		return userCredential.user.uid;
-	} catch (error) {
-		if (error instanceof Error) {
-			alert(error.message);
+		return { hasError: false, errorContent: null };
+	} catch (e) {
+		const error = e as AuthError;
+		const hasError = true;
+		if (error.code === 'auth/user-disabled') {
+			return { hasError, errorContent: new Error('無効なユーザーです') };
+		} else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+			return { hasError, errorContent: new Error('メールアドレスまたはパスワードが間違っています') };
+		} else {
+			return { hasError, errorContent: new Error('サーバーでエラーが発生しています') };
 		}
-
-		return null;
 	}
 };
 
-export const googleAuth = async (): Promise<string | null> => {
+export const googleAuth = async (): Promise<returnValue> => {
 	try {
-		const userCredential: UserCredential = await signInWithPopup(auth, googleAuthProvider);
+		await signInWithPopup(auth, googleAuthProvider);
 
-		return userCredential.user.uid;
-	} catch (error) {
-		if (error instanceof Error) {
-			alert(error.message);
-		}
-
-		return null;
+		return { hasError: false, errorContent: null };
+	} catch (e) {
+		return { hasError: true, errorContent: new Error('サーバーでエラーが発生しています') };
 	}
 };
 

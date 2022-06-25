@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { useState, VFC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/dist/client/router';
 import { Alert, Box, Button, FormControl, TextField } from '@mui/material';
@@ -12,6 +12,7 @@ type valuesType = {
 };
 
 const SignInForm: VFC = () => {
+	const [firebaseAuthError, setFirebaseAuthError] = useState<Error | null>(null);
 	const router = useRouter();
 	const {
 		register,
@@ -23,13 +24,21 @@ const SignInForm: VFC = () => {
 	});
 
 	const signInWithEmail: SubmitHandler<valuesType> = async (inputs) => {
-		const uid = await emailAuth(inputs.email, inputs.password);
-		if (uid) router.push('/');
+		const { hasError, errorContent } = await emailAuth(inputs.email, inputs.password);
+		if (!hasError) {
+			router.push('/');
+		} else {
+			setFirebaseAuthError(errorContent);
+		}
 	};
 
 	const signInWithGoogle = async () => {
-		const uid = await googleAuth();
-		if (uid) router.push('/');
+		const { hasError, errorContent } = await googleAuth();
+		if (!hasError) {
+			router.push('/');
+		} else {
+			setFirebaseAuthError(errorContent);
+		}
 	};
 
 	return (
@@ -38,10 +47,11 @@ const SignInForm: VFC = () => {
 				<form onSubmit={handleSubmit(signInWithEmail)}>
 					<FormControl>
 						<Box className="mb-8 text-center text-xl font-bold tracking-wider">piggyBankにログインする</Box>
-						{(errors.email || errors.password) && (
+						{(errors.email || errors.password || firebaseAuthError?.message) && (
 							<Box className="mb-4">
 								{errors.email?.message && <Alert severity="error">{errors.email?.message}</Alert>}
 								{errors.password?.message && <Alert severity="error">{errors.password?.message}</Alert>}
+								{firebaseAuthError?.message && <Alert severity="error">{firebaseAuthError.message}</Alert>}
 							</Box>
 						)}
 						<Box className="mb-8 w-96">

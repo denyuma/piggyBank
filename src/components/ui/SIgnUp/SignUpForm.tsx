@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { useState, VFC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/dist/client/router';
 import { Box, Button, FormControl, TextField, Alert } from '@mui/material';
@@ -13,6 +13,7 @@ type valuesType = {
 };
 
 const SignUp: VFC = () => {
+	const [firebaseAuthError, setFirebaseAuthError] = useState<Error | null>(null);
 	const router = useRouter();
 	const {
 		register,
@@ -26,13 +27,21 @@ const SignUp: VFC = () => {
 	});
 
 	const signUpWithEmail: SubmitHandler<valuesType> = async (inputs) => {
-		const uid = await firebaseCreateUser(inputs.email, inputs.password);
-		if (uid) router.push('/');
+		const { hasError, errorContent } = await firebaseCreateUser(inputs.email, inputs.password);
+		if (!hasError) {
+			router.push('/');
+		} else {
+			setFirebaseAuthError(errorContent);
+		}
 	};
 
 	const signUpWithGoogle = async () => {
-		const uid = await googleAuth();
-		if (uid) router.push('/');
+		const { hasError, errorContent } = await googleAuth();
+		if (!hasError) {
+			router.push('/');
+		} else {
+			setFirebaseAuthError(errorContent);
+		}
 	};
 
 	return (
@@ -41,11 +50,12 @@ const SignUp: VFC = () => {
 				<form onSubmit={handleSubmit(signUpWithEmail)}>
 					<FormControl>
 						<Box className="mb-8 text-center text-xl font-bold tracking-wider">piggyBankに新規登録する</Box>
-						{(errors.email || errors.password || errors.confirmPassword) && (
+						{(errors.email || errors.password || errors.confirmPassword || firebaseAuthError?.message) && (
 							<Box className="mb-4">
 								{errors.email?.message && <Alert severity="error">{errors.email?.message}</Alert>}
 								{errors.password?.message && <Alert severity="error">{errors.password?.message}</Alert>}
 								{errors.confirmPassword?.message && <Alert severity="error">{errors.confirmPassword?.message}</Alert>}
+								{firebaseAuthError?.message && <Alert severity="error">{firebaseAuthError.message}</Alert>}
 							</Box>
 						)}
 						<Box className="mb-8 w-96">

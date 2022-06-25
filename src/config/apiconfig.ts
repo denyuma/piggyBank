@@ -4,10 +4,8 @@ const endPointUrl: string | void = (() => {
 			console.log('msw');
 			return '';
 		case 'local':
-			console.log('local');
 			return 'http://localhost:8000';
 		case 'production':
-			console.log('production');
 			return 'production-url';
 		default:
 			return 'invalid endpoint';

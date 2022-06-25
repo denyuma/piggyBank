@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { useState, VFC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/dist/client/router';
 import { Box, Button, FormControl, TextField, Alert } from '@mui/material';
@@ -13,6 +13,7 @@ type valuesType = {
 };
 
 const SignUp: VFC = () => {
+	const [firebaseAuthError, setFirebaseAuthError] = useState<Error | null>(null);
 	const router = useRouter();
 	const {
 		register,
@@ -25,14 +26,22 @@ const SignUp: VFC = () => {
 		reValidateMode: 'onSubmit',
 	});
 
-	const signUpWithEmail: SubmitHandler<valuesType> = (inputs) => {
-		firebaseCreateUser(inputs.email, inputs.password);
-		router.push('/');
+	const signUpWithEmail: SubmitHandler<valuesType> = async (inputs) => {
+		const { hasError, errorContent } = await firebaseCreateUser(inputs.email, inputs.password);
+		if (!hasError) {
+			router.push('/');
+		} else {
+			setFirebaseAuthError(errorContent);
+		}
 	};
 
-	const signUpWithGoogle = () => {
-		googleAuth();
-		router.push('/');
+	const signUpWithGoogle = async () => {
+		const { hasError, errorContent } = await googleAuth();
+		if (!hasError) {
+			router.push('/');
+		} else {
+			setFirebaseAuthError(errorContent);
+		}
 	};
 
 	return (
@@ -41,11 +50,12 @@ const SignUp: VFC = () => {
 				<form onSubmit={handleSubmit(signUpWithEmail)}>
 					<FormControl>
 						<Box className="mb-8 text-center text-xl font-bold tracking-wider">piggyBankに新規登録する</Box>
-						{(errors.email || errors.password || errors.confirmPassword) && (
+						{(errors.email || errors.password || errors.confirmPassword || firebaseAuthError?.message) && (
 							<Box className="mb-4">
 								{errors.email?.message && <Alert severity="error">{errors.email?.message}</Alert>}
 								{errors.password?.message && <Alert severity="error">{errors.password?.message}</Alert>}
 								{errors.confirmPassword?.message && <Alert severity="error">{errors.confirmPassword?.message}</Alert>}
+								{firebaseAuthError?.message && <Alert severity="error">{firebaseAuthError.message}</Alert>}
 							</Box>
 						)}
 						<Box className="mb-8 w-96">
@@ -104,16 +114,14 @@ const SignUp: VFC = () => {
 					</FormControl>
 				</form>
 				<Box className="my-6 text-center text-lg">または</Box>
-				<Box className="">
-					<Button
-						variant="outlined"
-						className="w-96 rounded-3xl border-gray-900 text-gray-900 hover:border-gray-900 hover:bg-gray-100 "
-						onClick={signUpWithGoogle}
-					>
-						<GoogleIcon alt="googleIcon" height="30" width="30" />
-						<Box className="ml-4 text-lg">Googleで登録する</Box>
-					</Button>
-				</Box>
+				<Button
+					variant="outlined"
+					className="w-96 rounded-3xl border-gray-900 text-gray-900 hover:border-gray-900 hover:bg-gray-100 "
+					onClick={signUpWithGoogle}
+				>
+					<GoogleIcon alt="googleIcon" height="30" width="30" />
+					<Box className="ml-4 text-lg">Googleで登録する</Box>
+				</Button>
 				<Box className="my-6 text-center  text-blue-500">
 					<Link href="/signin">既にアカウントをお持ちの方はこちら</Link>
 				</Box>

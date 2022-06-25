@@ -7,7 +7,7 @@ import FaceIcon from '@mui/icons-material/Face';
 const Header: VFC = () => {
 	return (
 		<>
-			<Box className="mx-auto  w-90v">
+			<Box className="mx-auto  w-[90vw]">
 				<Box className="flex items-center justify-end">
 					<Box className="m-3">
 						<Link href="/signup" passHref>

@@ -15,11 +15,7 @@ const Top: NextPage = () => {
 
 	console.log(users);
 
-	return (
-		<AuthProvider>
-			<Home />
-		</AuthProvider>
-	);
+	return <Home />;
 };
 
 export default Top;

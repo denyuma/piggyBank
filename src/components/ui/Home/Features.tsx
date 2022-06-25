@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const Features: VFC = () => {
 	return (
-		<Box className="mx-auto w-50v">
+		<Box className="mx-auto w-[50vw]">
 			<Box className="flex flex-col items-center">
 				<Box className="my-16 flex ">
 					<Image src={feature1Image} alt="機能1" width="340" height="300" />

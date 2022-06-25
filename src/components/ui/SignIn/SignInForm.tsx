@@ -1,6 +1,6 @@
 import { VFC, useState, FormEvent, ChangeEvent } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, provider } from '../../../config/firebase';
+import { auth, googleAuthProvider } from '../../../config/firebase';
 import { useRouter } from 'next/dist/client/router';
 
 const SignInForm: VFC = () => {
@@ -22,7 +22,7 @@ const SignInForm: VFC = () => {
 
 	const googleLogin = async () => {
 		try {
-			await signInWithPopup(auth, provider);
+			await signInWithPopup(auth, googleAuthProvider);
 			router.push('/');
 		} catch (error) {
 			if (error instanceof Error) {

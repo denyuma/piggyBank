@@ -9,9 +9,13 @@ export const AuthProvider: VFC<AuthProviderProps> = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState<User | null | undefined>(null);
 
 	useEffect(() => {
+		let isMounted = true;
 		auth.onAuthStateChanged((user) => {
-			setCurrentUser(user);
+			if (isMounted) setCurrentUser(user);
 		});
+		return () => {
+			isMounted = false;
+		};
 	}, []);
 
 	return <AuthContext.Provider value={{ currentUser }}>{children}</AuthContext.Provider>;

@@ -5,6 +5,7 @@ import { Box, Button, FormControl, TextField, Alert } from '@mui/material';
 import Link from 'next/link';
 import GoogleIcon from '../../../images/googleIcon.svg';
 import { firebaseCreateUser, googleAuth } from '../../../repositories/firebaseAuth';
+import { useAuthContext } from '../../../provider/AuthProvider';
 
 type valuesType = {
 	email: string;
@@ -24,15 +25,16 @@ const SignUp: VFC = () => {
 		mode: 'onSubmit',
 		reValidateMode: 'onSubmit',
 	});
+	const { isAuthenticated } = useAuthContext();
 
 	const signUpWithEmail: SubmitHandler<valuesType> = (inputs) => {
 		firebaseCreateUser(inputs.email, inputs.password);
-		router.push('/');
+		isAuthenticated && router.push('/');
 	};
 
 	const signUpWithGoogle = () => {
 		googleAuth();
-		router.push('/');
+		isAuthenticated && router.push('/');
 	};
 
 	return (
@@ -104,16 +106,14 @@ const SignUp: VFC = () => {
 					</FormControl>
 				</form>
 				<Box className="my-6 text-center text-lg">または</Box>
-				<Box className="">
-					<Button
-						variant="outlined"
-						className="w-96 rounded-3xl border-gray-900 text-gray-900 hover:border-gray-900 hover:bg-gray-100 "
-						onClick={signUpWithGoogle}
-					>
-						<GoogleIcon alt="googleIcon" height="30" width="30" />
-						<Box className="ml-4 text-lg">Googleで登録する</Box>
-					</Button>
-				</Box>
+				<Button
+					variant="outlined"
+					className="w-96 rounded-3xl border-gray-900 text-gray-900 hover:border-gray-900 hover:bg-gray-100 "
+					onClick={signUpWithGoogle}
+				>
+					<GoogleIcon alt="googleIcon" height="30" width="30" />
+					<Box className="ml-4 text-lg">Googleで登録する</Box>
+				</Button>
 				<Box className="my-6 text-center  text-blue-500">
 					<Link href="/signin">既にアカウントをお持ちの方はこちら</Link>
 				</Box>

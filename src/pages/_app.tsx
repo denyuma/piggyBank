@@ -10,7 +10,7 @@ if (process.env.ENDPOINT === 'msw') {
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<AuthProvider>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</AuthProvider>
 	);
 }

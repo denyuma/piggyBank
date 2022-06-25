@@ -22,14 +22,14 @@ const SignInForm: VFC = () => {
 		reValidateMode: 'onSubmit',
 	});
 
-	const signInWithEmail: SubmitHandler<valuesType> = (inputs) => {
-		emailAuth(inputs.email, inputs.password);
-		router.push('/');
+	const signInWithEmail: SubmitHandler<valuesType> = async (inputs) => {
+		const uid = await emailAuth(inputs.email, inputs.password);
+		if (uid) router.push('/');
 	};
 
-	const signInWithGoogle = () => {
-		googleAuth();
-		router.push('/');
+	const signInWithGoogle = async () => {
+		const uid = await googleAuth();
+		if (uid) router.push('/');
 	};
 
 	return (

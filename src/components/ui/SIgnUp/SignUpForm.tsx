@@ -5,7 +5,6 @@ import { Box, Button, FormControl, TextField, Alert } from '@mui/material';
 import Link from 'next/link';
 import GoogleIcon from '../../../images/googleIcon.svg';
 import { firebaseCreateUser, googleAuth } from '../../../repositories/firebaseAuth';
-import { useAuthContext } from '../../../provider/AuthProvider';
 
 type valuesType = {
 	email: string;
@@ -25,16 +24,15 @@ const SignUp: VFC = () => {
 		mode: 'onSubmit',
 		reValidateMode: 'onSubmit',
 	});
-	const { isAuthenticated } = useAuthContext();
 
-	const signUpWithEmail: SubmitHandler<valuesType> = (inputs) => {
-		firebaseCreateUser(inputs.email, inputs.password);
-		isAuthenticated && router.push('/');
+	const signUpWithEmail: SubmitHandler<valuesType> = async (inputs) => {
+		const uid = await firebaseCreateUser(inputs.email, inputs.password);
+		if (uid) router.push('/');
 	};
 
-	const signUpWithGoogle = () => {
-		googleAuth();
-		isAuthenticated && router.push('/');
+	const signUpWithGoogle = async () => {
+		const uid = await googleAuth();
+		if (uid) router.push('/');
 	};
 
 	return (

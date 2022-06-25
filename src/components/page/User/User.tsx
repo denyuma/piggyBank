@@ -1,12 +1,11 @@
-import { signOut } from '@firebase/auth';
 import { useRouter } from 'next/dist/client/router';
 import { VFC } from 'react';
-import { auth } from '../../../config/firebase';
+import { firebaseSignOut } from '../../../repositories/firebaseAuth';
 
 const User: VFC = () => {
 	const router = useRouter();
 	const logout = async (): Promise<void> => {
-		await signOut(auth);
+		await firebaseSignOut();
 		router.push('/');
 	};
 

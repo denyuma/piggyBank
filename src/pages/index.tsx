@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import Home from '../components/page/Home';
-import { AuthProvider } from '../components/domain/auth/AuthProvider';
+import { AuthProvider } from '../provider/AuthProvider';
 
 const Top: NextPage = () => {
 	const [users, setUsers] = useState(null);
@@ -15,11 +15,7 @@ const Top: NextPage = () => {
 
 	console.log(users);
 
-	return (
-		<AuthProvider>
-			<Home />
-		</AuthProvider>
-	);
+	return <Home />;
 };
 
 export default Top;

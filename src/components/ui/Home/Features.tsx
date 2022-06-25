@@ -6,10 +6,11 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import feature1Image from '../../../images/feature_1.png';
 import feature2Image from '../../../images/feature_2.png';
 import feature3Image from '../../../images/feature_3.png';
+import Link from 'next/link';
 
 const Features: VFC = () => {
 	return (
-		<Box className="mx-auto w-50v">
+		<Box className="mx-auto w-[50vw]">
 			<Box className="flex flex-col items-center">
 				<Box className="my-16 flex ">
 					<Image src={feature1Image} alt="機能1" width="340" height="300" />
@@ -49,10 +50,12 @@ const Features: VFC = () => {
 				</Box>
 			</Box>
 			<Box className="mb-16 text-center">
-				<Button variant="contained" className="mt-10 rounded-full bg-pink-700 text-2xl hover:bg-pink-500 ">
-					<ArrowCircleRightIcon className="ml-4" />
-					<Box className="mx-4">Webで今すぐではじめる</Box>
-				</Button>
+				<Link href="/signup" passHref>
+					<Button variant="contained" className="mx-4 mt-10 rounded-full bg-pink-700 text-2xl hover:bg-pink-500 ">
+						<ArrowCircleRightIcon className="ml-4" />
+						<Box className="mx-4">Webで今すぐではじめる</Box>
+					</Button>
+				</Link>
 			</Box>
 		</Box>
 	);

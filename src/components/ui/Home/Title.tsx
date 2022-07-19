@@ -20,7 +20,7 @@ const Title: VFC = () => {
 					これ一つで管理する
 				</Box>
 				<Link href="/signup" passHref>
-					<Button variant="contained" className="mx-4 mt-10 rounded-full bg-pink-700 text-2xl hover:bg-pink-500 ">
+					<Button variant="contained" className="mx-4 mt-10 rounded-full bg-pink-700 text-xl hover:bg-pink-500 ">
 						<ArrowCircleRightIcon className="ml-4" />
 						<Box className="mx-4">Webで今すぐではじめる</Box>
 					</Button>

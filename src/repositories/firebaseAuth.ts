@@ -51,7 +51,8 @@ export const emailAuth = async (email: string, password: string): Promise<return
 
 export const googleAuth = async (): Promise<returnValue> => {
 	try {
-		await signInWithPopup(auth, googleAuthProvider);
+		const a = await signInWithPopup(auth, googleAuthProvider);
+		console.log('a', a);
 
 		return { hasError: false, errorContent: null };
 	} catch (e) {

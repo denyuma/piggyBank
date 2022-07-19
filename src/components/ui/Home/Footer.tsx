@@ -15,10 +15,14 @@ const Footer: VFC = () => {
 				</Link>
 			</Box>
 			<Box className="my-4 text-lg">©2022 piggyBank</Box>
-			<Button variant="contained" className="rounded-full bg-gray-800 text-lg normal-case hover:bg-gray-600">
-				<GitHubIcon className="mr-4" />
-				<Link href="https://github.com/denyuma/piggyBank">Github</Link>
-			</Button>
+			<Link href="https://github.com/denyuma/piggyBank" passHref>
+				<a target="_blank" rel="noopener noreferrer">
+					<Button variant="contained" className="rounded-full bg-gray-800 text-lg normal-case hover:bg-gray-600">
+						<GitHubIcon className="mr-4" />
+						Github
+					</Button>
+				</a>
+			</Link>
 		</Box>
 	);
 };

@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import 'tailwindcss/tailwind.css';
 import type { AppProps } from 'next/app';
 import { AuthProvider } from '../provider/AuthProvider';
+import { Box } from '@mui/material';
 
 if (process.env.ENDPOINT === 'msw') {
 	require('../mocks');
@@ -10,7 +11,7 @@ if (process.env.ENDPOINT === 'msw') {
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<AuthProvider>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</AuthProvider>
 	);
 }

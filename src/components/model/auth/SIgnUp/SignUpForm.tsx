@@ -3,8 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/dist/client/router';
 import { Box, Button, FormControl, TextField, Alert } from '@mui/material';
 import Link from 'next/link';
-import GoogleIcon from '../../../images/googleIcon.svg';
-import { firebaseCreateUser, googleAuth } from '../../../repositories/firebaseAuth';
+import GoogleIcon from '../../../../images/googleIcon.svg';
+import { firebaseCreateUser, googleAuth } from '../../../../repositories/firebaseAuth';
 
 type valuesType = {
 	email: string;

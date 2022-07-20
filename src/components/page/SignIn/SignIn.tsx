@@ -1,4 +1,4 @@
-import SignInForm from '../../ui/SignIn/SignInForm';
+import SignInForm from '../../model/auth/SignIn/SignInForm';
 
 const SignInPage = () => {
 	return <SignInForm />;

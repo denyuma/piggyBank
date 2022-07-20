@@ -31,8 +31,6 @@ export const AuthProvider: VFC<AuthProviderProps> = ({ children }) => {
 		};
 	}, []);
 
-	console.log('isLoadinggggggg', isLoading);
-
 	return (
 		<AuthContext.Provider value={{ currentUser, isAuthenticated, isLoading }}>
 			{!isLoading && children}

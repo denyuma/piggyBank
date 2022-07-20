@@ -2,9 +2,9 @@ import { useState, VFC } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/dist/client/router';
 import { Alert, Box, Button, FormControl, TextField } from '@mui/material';
-import GoogleIcon from '../../../images/googleIcon.svg';
+import GoogleIcon from '../../../../images/googleIcon.svg';
 import Link from 'next/link';
-import { emailAuth, googleAuth } from '../../../repositories/firebaseAuth';
+import { emailAuth, googleAuth } from '../../../../repositories/firebaseAuth';
 
 type valuesType = {
 	email: string;
